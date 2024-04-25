@@ -19,6 +19,7 @@ interface Format {
 
 interface MyContextType {
   datas: SurahProps[]
+  setDatas: (data: SurahProps[]) => void
   isLoading: boolean
   translationData: Format[]
   translatedText: string
@@ -86,6 +87,7 @@ const SignedContextProvider: React.FC<MyContextProviderProps> = ({
 
   const value: MyContextType = {
     datas,
+    setDatas,
     isLoading,
     translationData,
     translatedText,

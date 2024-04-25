@@ -50,7 +50,6 @@ const TranslationText: React.FC = () => {
     return <p className="text-3xl">No translated text available 🙅‍♂️</p>
   }
   const filteredData = data.find((surahData) => surahData.englishName === surah)
-  console.log(filteredData)
   return (
     <>
       {filteredData?.ayahs.map((ayah, i) => (
