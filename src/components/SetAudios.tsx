@@ -46,7 +46,6 @@ const SetAudios: React.FC<SetAudiosProps> = ({ ayahNumber }) => {
   }, [selectedAudioFormat])
 
   const filteredData = data.find((surahData) => surahData.englishName === surah)
-  // console.log(filteredData)
 
   if (loading) {
     return <p>Loading...</p>

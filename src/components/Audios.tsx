@@ -10,7 +10,6 @@ const Audios: React.FC = () => {
         value={selectedAudioFormat}
         onChange={(e) => setSelectedAudioFormat(e.target.value)}
       >
-        {/* <option value="">Select Reciter</option> */}
         {audioFormats.map((format) => (
           <option key={format.identifier} value={format.identifier}>
             {format.englishName}

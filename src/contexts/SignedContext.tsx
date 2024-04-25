@@ -1,25 +1,12 @@
 import React, { createContext, useState, useEffect } from 'react'
 
-interface SurahProps {
-  name: string
-  englishName: string
-  englishNameTranslation: string
-  number: number
-  ayahs: {
-    number: number
-    text: string
-    numberInSurah: number
-  }[]
-}
-
 interface Format {
   identifier: string
   englishName: string
+  language: string
 }
 
 interface MyContextType {
-  datas: SurahProps[]
-  setDatas: (data: SurahProps[]) => void
   isLoading: boolean
   translationData: Format[]
   translatedText: string
@@ -39,7 +26,6 @@ const SignedContext = createContext<MyContextType | undefined>(undefined)
 const SignedContextProvider: React.FC<MyContextProviderProps> = ({
   children,
 }) => {
-  const [datas, setDatas] = useState<SurahProps[]>([])
   const [isLoading, setLoading] = useState<boolean>(false)
   // Translation
   const [translationData, setTranslationData] = useState<Format[]>([])
@@ -86,8 +72,6 @@ const SignedContextProvider: React.FC<MyContextProviderProps> = ({
   }, [])
 
   const value: MyContextType = {
-    datas,
-    setDatas,
     isLoading,
     translationData,
     translatedText,
@@ -114,86 +98,3 @@ const useSignedContext = (): MyContextType => {
 }
 
 export { SignedContextProvider, useSignedContext }
-
-// import React, {createContext, useState, useEffect} from 'react';
-
-// interface SurahProps {
-//   name: string
-//   englishName: string
-//   englishNameTranslation: string
-//   number: number
-//   ayahs: {
-//     number: number
-//     text: string
-//     numberInSurah: number
-//   }[],
-// }
-
-// interface MyContextType {
-//   datas: SurahProps[]
-//   isLoading: boolean
-// }
-
-// interface MyContextProviderProps {
-//   children: React.ReactNode
-// }
-
-// const SignedContext = createContext<MyContextType | undefined>(undefined)
-
-// const SignedContextProvider: React.FC<MyContextProviderProps> = ({
-//   children,
-// }) => {
-//   const [datas, setData] = useState<SurahProps[]>([])
-//   const [isLoading, setLoading] = useState<boolean>(false)
-
-//   useEffect(() => {
-//     async function fetchData(scholarName: string) {
-//       setLoading(true)
-//       await fetch(`https://api.alquran.cloud/v1/quran/${scholarName}`)
-//         .then((response) => response.json())
-//         .then((data) => {
-//           setData(data.data.surahs)
-//           setLoading(false)
-//         })
-//         .catch((error) => {
-//           console.error('Error:', error)
-//           setLoading(false)
-//         })
-//     }
-
-//     async function fetchTranslatorData() {
-//       try {
-//         const response = await fetch(
-//           'https://api.alquran.cloud/v1/edition/type/translation'
-//         )
-//         const data = await response.json()
-//         setTextFormats(data.data)
-//         setSelectedTextFormat(data.data[0]?.identifier || '')
-//       } catch (error) {
-//         console.error('Error:', error)
-//       }
-//     }
-//     fetchTranslatorData()
-//   }, [])
-
-//   const value: MyContextType = {
-//     datas,
-//     isLoading
-//   }
-
-//   return (
-//     <SignedContext.Provider value={value}>{children}</SignedContext.Provider>)
-// }
-
-// const useSignedContext = (): MyContextType => {
-//   const context = React.useContext(SignedContext)
-//   if (context === undefined) {
-//     throw new Error('useSignedContext must be used within a SignedContextProvider')
-//   }
-//   return context
-// }
-
-// export {
-//   SignedContextProvider,
-//   useSignedContext
-// }

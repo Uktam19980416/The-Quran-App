@@ -1,5 +1,4 @@
 import React from 'react';
-// import Language from './Language';
 import Audios from './Audios';
 import TranslationTab from './TranslationTab';
 
@@ -27,7 +26,6 @@ const Settingss: React.FC<SettingsProps> = ({ toggleClose }) => {
         </div>
       </div>
 
-      {/* <Language /> */}
       <hr className="my-5 border-t-2" />
       <TranslationTab />
       <hr className="my-5 border-t-2" />
