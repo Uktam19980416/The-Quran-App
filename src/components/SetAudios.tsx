@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import ReactAudioPlayer from 'react-audio-player'
+// import ReactAudioPlayer from 'react-audio-player'
 import { useSignedContext } from '../contexts/SignedContext'
 import { useParams } from 'react-router'
 
@@ -45,10 +45,41 @@ const SetAudios: React.FC<SetAudiosProps> = ({ ayahNumber }) => {
     fetchScholarData()
   }, [selectedAudioFormat])
 
+  const handleAudioPlay = () => {
+    document.addEventListener(
+      'play',
+      function (e) {
+        const audiosArr = [...document.getElementsByTagName('audio')]
+        audiosArr.forEach((audio) => {
+          if (audio !== e.target) {
+            audio.pause()
+          }
+        })
+      },
+      true
+    )
+  }
+
+  const handleAudioEnd = (ayahNumber: number) => {
+    const nextAyahNumber = ayahNumber + 1
+    const nextAudioElement = document.getElementById(
+      `audio-${nextAyahNumber}`
+    ) as HTMLAudioElement
+
+    if (nextAudioElement) {
+      nextAudioElement.play()
+    }
+  }
+
+
   const filteredData = data.find((surahData) => surahData.englishName === surah)
 
   if (loading) {
-    return <p>Loading...</p>
+    return (
+      <p>
+        <span className="loading loading-spinner loading-md"></span>
+      </p>
+    )
   }
 
   if (!selectedAudioFormat) {
@@ -59,12 +90,16 @@ const SetAudios: React.FC<SetAudiosProps> = ({ ayahNumber }) => {
       {filteredData?.ayahs.map((ayah) => {
         if(ayah.number === ayahNumber){
           return (
-            <ReactAudioPlayer
+            <audio
               key={ayah.number}
-              src={ayah.audio}
+              id={`audio-${ayah.number}`}
               className="w-full"
               controls
-            />
+              onPlay={handleAudioPlay}
+              onEnded={() => handleAudioEnd(ayah.number)}
+            >
+              <source src={ayah.audio} />
+            </audio>
           )
         }
       })}

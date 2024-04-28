@@ -15,6 +15,8 @@ interface SurahProps {
 interface MyContextType {
   data: SurahProps[]
   loading: boolean
+  search: string
+  setSearch: (search: string) => void
 }
 
 interface MyContextProviderProps {
@@ -25,6 +27,7 @@ const MyContext = createContext<MyContextType | undefined>(undefined)
 
 const MyContextProvider: React.FC<MyContextProviderProps> = ({children}) => {
   const [data, setData] = React.useState<SurahProps[]>([])
+  const [search, setSearch] = React.useState<string>('')
   const [loading, setLoading] = React.useState<boolean>(false)
 
   useEffect(() => {
@@ -44,7 +47,7 @@ const MyContextProvider: React.FC<MyContextProviderProps> = ({children}) => {
     fetchData()
   }, [])
   
-  const value: MyContextType = {data, loading}
+  const value: MyContextType = { data, loading, search, setSearch }
   return (
     <MyContext.Provider value={value}>
       {children}

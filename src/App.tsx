@@ -4,6 +4,7 @@ import { MyContextProvider } from "./contexts/MyContext"
 import SignedSurah from "./components/SignedSurah"
 import Header from "./components/Header"
 import { SignedContextProvider } from "./contexts/SignedContext"
+import Footer from "./components/Footer"
 
 function App() {
 
@@ -21,6 +22,7 @@ function App() {
               element={<SignedSurah />}
             />
           </Routes>
+            <Footer />
         </SignedContextProvider>
       </MyContextProvider>
     </div>

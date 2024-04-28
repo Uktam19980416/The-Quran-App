@@ -12,7 +12,7 @@ const Audios: React.FC = () => {
       >
         {audioFormats.map((format) => (
           <option key={format.identifier} value={format.identifier}>
-            {format.englishName}
+            {format.englishName} ({format.language})
           </option>
         ))}
       </select>
