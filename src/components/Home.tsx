@@ -6,7 +6,7 @@ import Loader from './Loader'
 import { useMyContext } from '../contexts/MyContext';
 
 const Home: React.FC = () => {
-  const { loading} = useMyContext()
+  const { loading } = useMyContext()
 
   return (
     <div>

@@ -4,13 +4,15 @@ import { useMyContext } from '../contexts/MyContext'
 
 const Footer: React.FC = () => {
   const now = new Date()
-  const { search } = useMyContext()
-  const condition = (typeof search === "string" && search.length > 3) || +search > 0
+  const { search, theme } = useMyContext()
+  const condition =
+    (typeof search === 'string' && search.length > 3) || +search > 0
   return (
     <footer
-      className={`text-center py-10 bg-slate-300 mt-5 ${
-        (condition ? 'absolute bottom-0 w-full' : ''
-        )}`}
+      className={`text-center py-10 ${
+        theme === 'dark' ? '' : 'bg-slate-300'
+      } mt-5 ${condition ? 'absolute bottom-0 w-full' : ''}`}
+      data-theme={theme === 'dark' ? "luxury" : ''}
     >
       <p className="text-2xl">
         Created by{' '}

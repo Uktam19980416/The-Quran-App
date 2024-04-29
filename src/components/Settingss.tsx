@@ -1,6 +1,7 @@
 import React from 'react';
 import Audios from './Audios';
 import TranslationTab from './TranslationTab';
+import Theme from './Theme';
 
 interface SettingsProps {
   toggleClose: () => void
@@ -18,13 +19,7 @@ const Settingss: React.FC<SettingsProps> = ({ toggleClose }) => {
 
       <hr className="my-3 border-t-2" />
 
-      <div>
-        <p className="text-2xl">Theme</p>
-        <div className="flex items-center justify-evenly my-5 gap-10 py-2 px-10 bg-slate-400 w-full mx-auto rounded-md">
-          <p className="px-20 py-1 bg-slate-100 rounded-md text-lg">Light</p>
-          <p>Dark</p>
-        </div>
-      </div>
+      <Theme />
 
       <hr className="my-5 border-t-2" />
       <TranslationTab />

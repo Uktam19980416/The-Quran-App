@@ -16,7 +16,9 @@ interface MyContextType {
   data: SurahProps[]
   loading: boolean
   search: string
-  setSearch: (search: string) => void
+  setSearch: (search: string) => void,
+  theme: string
+  toggleTheme: (theme: string) => void
 }
 
 interface MyContextProviderProps {
@@ -29,6 +31,11 @@ const MyContextProvider: React.FC<MyContextProviderProps> = ({children}) => {
   const [data, setData] = React.useState<SurahProps[]>([])
   const [search, setSearch] = React.useState<string>('')
   const [loading, setLoading] = React.useState<boolean>(false)
+  const [theme, setTheme] = React.useState<string>('light')
+
+  const toggleTheme = () => {
+    setTheme((prev) => (prev === 'light' ? 'dark' : 'light'))
+  }
 
   useEffect(() => {
     async function fetchData() {
@@ -47,7 +54,14 @@ const MyContextProvider: React.FC<MyContextProviderProps> = ({children}) => {
     fetchData()
   }, [])
   
-  const value: MyContextType = { data, loading, search, setSearch }
+  const value: MyContextType = {
+    data,
+    loading,
+    search,
+    setSearch,
+    theme,
+    toggleTheme,
+  }
   return (
     <MyContext.Provider value={value}>
       {children}

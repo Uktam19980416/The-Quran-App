@@ -6,13 +6,14 @@ import TranslationText from './TranslationText';
 
 const SignedSurah: React.FC = () => {
   const { surah } = useParams<{ surah: string }>()
-  const { data, loading } = useMyContext()
+  const { data, loading, theme } = useMyContext()
   const [isTranslationText, setIsTranslationText] = useState<boolean>(true)
   const [isReadingText, setIsReadingText] = useState<boolean>(false)
   const [currentSurahIndex, setCurrentSurahIndex] = useState<number>(-1)
   const navigate = useNavigate()
-  // const surahData = data.find((item) => item.englishName === surah)
-  const active = 'px-2 py-1 bg-slate-100 rounded-full'
+  const active = `px-2 py-1 ${
+    theme === 'dark' ? 'bg-slate-900' : 'bg-slate-100'
+  } rounded-full`
 
   const handleTranslationText = () => {
     setIsTranslationText(true)
@@ -96,7 +97,12 @@ const SignedSurah: React.FC = () => {
         </label>
       </div>
 
-      <div className="flex items-center justify-center my-5 gap-10 py-2 px-10 bg-slate-400 w-fit mx-auto rounded-md">
+      <div
+        className={`flex items-center justify-center my-5 gap-10 py-2 px-10 ${
+          theme === 'dark' ? '' : 'bg-slate-400'
+          } w-fit mx-auto rounded-md`}
+        data-theme={theme === 'dark' ? 'dracula' : ''}
+      >
         <p
           onClick={handleTranslationText}
           className={`${isTranslationText ? active : ''} cursor-pointer`}
@@ -121,7 +127,7 @@ const SignedSurah: React.FC = () => {
             {surahData?.ayahs.map((item) => {
               return (
                 <div key={item.number}>
-                  <p className="text-right text-slate-700 text-6xl">
+                  <p className="text-right  text-6xl">
                     {item.numberInSurah}. {item.text}
                   </p>
                   <hr className="border-t-4 my-3" />

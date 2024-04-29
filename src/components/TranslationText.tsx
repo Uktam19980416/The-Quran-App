@@ -3,6 +3,8 @@ import { useSignedContext } from '../contexts/SignedContext'
 import SetAudios from './SetAudios'
 import { useParams } from 'react-router'
 import Loader from './Loader'
+import { TextGenerateEffect } from './ui/text-generate-effect'
+import { useMyContext } from '../contexts/MyContext'
 interface SurahProps {
   name: string
   englishName: string
@@ -18,6 +20,7 @@ interface SurahProps {
 const TranslationText: React.FC = () => {
   const { surah } = useParams<{ surah: string }>()
   const { translatedText } = useSignedContext()
+  const {theme} = useMyContext()
   const [data, setData] = useState<SurahProps[]>([])
   const [loading, setLoading] = useState<boolean>(false)
   const BASE_URL = 'https://api.alquran.cloud/v1/quran'
@@ -54,9 +57,14 @@ const TranslationText: React.FC = () => {
       {filteredData?.ayahs.map((ayah, i) => (
         <div
           key={ayah.number}
-          className="bg-white shadow-md rounded-lg overflow-hidden"
+          className={`${
+            theme === 'dark' ? '' : 'bg-white'
+            } shadow-md rounded-lg overflow-hidden`}
+          data-theme={theme}
         >
-          <div className="px-6 py-4 bg-gray-200">
+          <div className={`px-6 py-4 ${theme === 'dark' ? '' : 'bg-gray-200'}`}
+          data-theme={theme}
+          >
             <div className="flex gap-5">
               <div className="flex flex-col justify-between">
                 <p className="text-3xl font-black">{i + 1}</p>
@@ -68,7 +76,7 @@ const TranslationText: React.FC = () => {
                 </p>
               </div>
               <div>
-                <p className="text-2xl">{ayah.text}</p>
+                  <TextGenerateEffect words={ayah.text} />
               </div>
             </div>
             <SetAudios ayahNumber={ayah.number} />

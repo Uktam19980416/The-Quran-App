@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 // import ReactAudioPlayer from 'react-audio-player'
 import { useSignedContext } from '../contexts/SignedContext'
 import { useParams } from 'react-router'
@@ -24,6 +24,7 @@ const SetAudios: React.FC<SetAudiosProps> = ({ ayahNumber }) => {
   const { selectedAudioFormat } = useSignedContext()
   const [data, setData] = useState<SurahProps[]>([])
   const [loading, setLoading] = useState<boolean>(false)
+  const activeAudioRef = useRef<HTMLAudioElement | null>(null)
   const BASE_URL = 'https://api.alquran.cloud/v1/quran/'
 
   useEffect(() => {
@@ -45,19 +46,26 @@ const SetAudios: React.FC<SetAudiosProps> = ({ ayahNumber }) => {
     fetchScholarData()
   }, [selectedAudioFormat])
 
-  const handleAudioPlay = () => {
-    document.addEventListener(
-      'play',
-      function (e) {
-        const audiosArr = [...document.getElementsByTagName('audio')]
-        audiosArr.forEach((audio) => {
-          if (audio !== e.target) {
-            audio.pause()
-          }
-        })
-      },
-      true
-    )
+  const handleAudioPlay = (audioElement: HTMLAudioElement) => {
+    // document.addEventListener(
+    //   'play',
+    //   function (e) {
+    //     const audiosArr = [...document.getElementsByTagName('audio')]
+    //     audiosArr.forEach((audio) => {
+    //       if (audio !== e.target) {
+    //         audio.pause()
+    //       }
+    //     })
+    //   },
+    //   true
+    // )
+    const audiosArr = Array.from(document.getElementsByTagName('audio')) as HTMLAudioElement[];
+    audiosArr.forEach((audio) => {
+      if (audio !== audioElement && !audio.paused) {
+        audio.pause();
+      }
+    })
+    activeAudioRef.current = audioElement
   }
 
   const handleAudioEnd = (ayahNumber: number) => {
@@ -68,6 +76,7 @@ const SetAudios: React.FC<SetAudiosProps> = ({ ayahNumber }) => {
 
     if (nextAudioElement) {
       nextAudioElement.play()
+      nextAudioElement.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
     }
   }
 
@@ -95,7 +104,7 @@ const SetAudios: React.FC<SetAudiosProps> = ({ ayahNumber }) => {
               id={`audio-${ayah.number}`}
               className="w-full"
               controls
-              onPlay={handleAudioPlay}
+              onPlay={() => handleAudioPlay(activeAudioRef.current || document.getElementById(`audio-${ayah.number}`) as HTMLAudioElement)}
               onEnded={() => handleAudioEnd(ayah.number)}
             >
               <source src={ayah.audio} />
